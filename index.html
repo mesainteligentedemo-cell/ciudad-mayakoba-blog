@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciudad Mayakoba - Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #ffffff;
+            --accent-color: #d4af37;
+            --text-color: #333333;
+            --light-bg: #f5f5f5;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* HEADER */
+        header {
+            background: var(--secondary-color);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 0;
+            min-width: 150px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-dropdown:hover .nav-dropdown-menu {
+            display: block;
+        }
+
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .lang-toggle {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.7), rgba(212, 175, 55, 0.3)), url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=400&fit=crop');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* CURRENCY CONVERTER */
+        .converter-section {
+            background: var(--light-bg);
+            padding: 30px 40px;
+            margin: 40px 0;
+            border-radius: 8px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .converter-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .converter-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .converter-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .converter-input select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .converter-result {
+            background: var(--secondary-color);
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 18px;
+        }
+
+        /* BLOG LISTING */
+        .blog-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 40px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-card-image {
+            width: 100%;
+            height: 250px;
+            background: var(--light-bg);
+            overflow: hidden;
+        }
+
+        .blog-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .blog-card:hover .blog-card-image img {
+            transform: scale(1.05);
+        }
+
+        .blog-card-content {
+            padding: 25px;
+        }
+
+        .blog-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .blog-card-excerpt {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .blog-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .blog-card-meta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* BLOG DETAIL PAGE */
+        .blog-detail {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 40px;
+        }
+
+        .blog-detail-hero {
+            width: 100%;
+            height: 500px;
+            background: var(--light-bg);
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .blog-detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .blog-detail-header {
+            margin-bottom: 40px;
+        }
+
+        .blog-detail-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .blog-detail-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .blog-detail-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .blog-detail-content h2 {
+            font-size: 24px;
+            margin: 40px 0 20px 0;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .blog-detail-content p {
+            margin-bottom: 20px;
+        }
+
+        .blog-detail-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .blog-detail-content li {
+            margin-bottom: 10px;
+        }
+
+        .blog-detail-image {
+            margin: 30px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .blog-detail-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* RELATED POSTS */
+        .related-section {
+            background: var(--light-bg);
+            padding: 60px 40px;
+            margin-top: 60px;
+            border-radius: 8px;
+        }
+
+        .related-title {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 40px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .footer-section a {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-container {
+                padding: 0 20px;
+            }
+
+            .blog-detail {
+                padding: 0 20px;
+            }
+
+            .blog-detail-title {
+                font-size: 28px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+
+        /* HIDDEN ELEMENTS */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <svg width="162" height="51" viewBox="0 0 162 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="10" y="35" font-size="28" font-weight="bold" fill="#1a1a1a">Ciudad Mayakoba</text>
+            </svg>
+        </div>
+        <nav>
+            <a href="#home" data-lang-es="Inicio" data-lang-en="Home">Inicio</a>
+            <div class="nav-dropdown">
+                <a href="#desarrollos" data-lang-es="Desarrollos" data-lang-en="Developments">Desarrollos</a>
+                <div class="nav-dropdown-menu">
+                    <a href="#lotes" data-lang-es="Lotes" data-lang-en="Lots">Lotes</a>
+                    <a href="#casas" data-lang-es="Casas" data-lang-en="Homes">Casas</a>
+                </div>
+            </div>
+            <div class="nav-dropdown">
+                <a href="#lifestyle" data-lang-es="Lifestyle" data-lang-en="Lifestyle">Lifestyle</a>
+                <div class="nav-dropdown-menu">
+                    <a href="#restaurantes" data-lang-es="Restaurantes" data-lang-en="Restaurants">Restaurantes</a>
+                    <a href="#playas" data-lang-es="Playas" data-lang-en="Beaches">Playas</a>
+                </div>
+            </div>
+            <a href="#blog" data-lang-es="Blog" data-lang-en="Blog">Blog</a>
+            <a href="#ubicacion" data-lang-es="Ubicación" data-lang-en="Location">Ubicación</a>
+        </nav>
+        <div class="header-right">
+            <button class="lang-toggle" onclick="toggleLanguage()">EN / ES</button>
+            <button class="cta-button" data-lang-es="Agendar cita" data-lang-en="Book Appointment">Agendar cita</button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div>
+            <h1 data-lang-es="Bienvenido a Ciudad Mayakoba" data-lang-en="Welcome to Ciudad Mayakoba">Bienvenido a Ciudad Mayakoba</h1>
+            <p data-lang-es="Descubre el lujo y la naturaleza de Riviera Maya" data-lang-en="Discover the luxury and nature of Riviera Maya">Descubre el lujo y la naturaleza de Riviera Maya</p>
+        </div>
+    </section>
+
+    <!-- CURRENCY CONVERTER -->
+    <section class="converter-section">
+        <div class="converter-title" data-lang-es="Convertidor de Moneda" data-lang-en="Currency Converter">Convertidor de Moneda</div>
+        <div class="converter-input">
+            <input type="number" id="converterAmount" placeholder="100" value="100">
+            <select id="converterFrom">
+                <option value="USD">USD</option>
+                <option value="MXN">MXN</option>
+            </select>
+            <span style="padding: 10px;">=</span>
+            <select id="converterTo">
+                <option value="MXN">MXN</option>
+                <option value="USD">USD</option>
+            </select>
+        </div>
+        <div class="converter-result" id="converterResult">1,700 MXN</div>
+    </section>
+
+    <!-- BLOG LISTING -->
+    <section class="blog-container">
+        <h2 class="section-title" data-lang-es="Últimas del Blog" data-lang-en="Latest from Blog">Últimas del Blog</h2>
+        <div class="blog-grid" id="blogGrid">
+            <!-- Cards generadas dinámicamente -->
+        </div>
+    </section>
+
+    <!-- RELATED POSTS -->
+    <section class="blog-container related-section hidden" id="relatedSection">
+        <h2 class="related-title" data-lang-es="Publicaciones Similares" data-lang-en="Related Articles">Publicaciones Similares</h2>
+        <div class="blog-grid" id="relatedGrid">
+            <!-- Cards generadas dinámicamente -->
+        </div>
+    </section>
+
+    <!-- BLOG DETAIL (Hidden by default) -->
+    <section class="blog-detail hidden" id="detailSection">
+        <div class="blog-detail-hero">
+            <img id="detailImage" src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&h=500&fit=crop" alt="Blog image">
+        </div>
+        <div class="blog-detail-header">
+            <h1 class="blog-detail-title" id="detailTitle">Artículo</h1>
+            <div class="blog-detail-meta">
+                <span id="detailDate">27 Agosto del 2026</span>
+            </div>
+        </div>
+        <div class="blog-detail-content" id="detailContent">
+            <!-- Contenido generado dinámicamente -->
+        </div>
+        <button class="cta-button" onclick="backToBlog()" style="margin-top: 40px; width: 100%;" data-lang-es="Volver al Blog" data-lang-en="Back to Blog">Volver al Blog</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <svg width="162" height="51" viewBox="0 0 162 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <text x="10" y="35" font-size="20" font-weight="bold" fill="#d4af37">Ciudad Mayakoba</text>
+                    </svg>
+                </div>
+                <p data-lang-es="Desarrollos inmobiliarios de lujo en Riviera Maya" data-lang-en="Luxury real estate developments in Riviera Maya">Desarrollos inmobiliarios de lujo en Riviera Maya</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-lang-es="Quicklinks" data-lang-en="Quicklinks">Quicklinks</h3>
+                <a href="#" data-lang-es="Sobre nosotros" data-lang-en="About us">Sobre nosotros</a>
+                <a href="#" data-lang-es="Contacto" data-lang-en="Contact">Contacto</a>
+                <a href="#" data-lang-es="Propiedades" data-lang-en="Properties">Propiedades</a>
+            </div>
+            <div class="footer-section">
+                <h3 data-lang-es="Legal" data-lang-en="Legal">Legal</h3>
+                <a href="#" data-lang-es="Política de Privacidad" data-lang-en="Privacy Policy">Política de Privacidad</a>
+                <a href="#" data-lang-es="Términos de Servicio" data-lang-en="Terms of Service">Términos de Servicio</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span data-lang-es="Copyright © 2025. Ciudad Mayakoba." data-lang-en="Copyright © 2025. Ciudad Mayakoba.">Copyright © 2025. Ciudad Mayakoba.</span>
+            <div>
+                <a href="#" style="display: inline; margin: 0 15px;">Facebook</a>
+                <a href="#" style="display: inline; margin: 0 15px;">Instagram</a>
+                <a href="#" style="display: inline; margin: 0 15px;">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // BLOG DATA (EDITABLE)
+        const blogData = {
+            es: [
+                {
+                    id: 1,
+                    title: "Playa del Carmen secreta",
+                    excerpt: "Lugares poco conocidos para vivir la Riviera Maya diferente.",
+                    date: "27 Agosto del 2026",
+                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=300&fit=crop",
+                    content: "<h2>Playas Ocultas de Playa del Carmen</h2><p>Playa del Carmen es conocida por sus playas turísticas, pero existen lugares secretos donde puedes disfrutar de la tranquilidad del Caribe.</p><h2>Playa Xcalacoco</h2><p>A solo 10 minutos de Playa del Carmen, esta playa es menos concurrida pero igual de hermosa.</p><div class='blog-detail-image'><img src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop' alt='Playa'></div><h2>Parque Dos Ojos</h2><p>Perfecta para actividades acuáticas y disfrutar de la naturaleza.</p>"
+                },
+                {
+                    id: 2,
+                    title: "Playas más bonitas",
+                    excerpt: "Descubre playas paradisíacas en Riviera Maya.",
+                    date: "14 Agosto del 2026",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500&h=300&fit=crop",
+                    content: "<h2>Las Playas Más Hermosas</h2><p>La Riviera Maya ofrece algunas de las playas más paradisíacas del mundo.</p>"
+                },
+                {
+                    id: 3,
+                    title: "Cenotes imperdibles",
+                    excerpt: "Los mejores cenotes para visitar cerca de Playa del Carmen.",
+                    date: "21 Agosto del 2026",
+                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=300&fit=crop",
+                    content: "<h2>Explorando Cenotes</h2><p>Los cenotes son formaciones geológicas únicas en México.</p>"
+                },
+                {
+                    id: 4,
+                    title: "Guía rápida de Tulum",
+                    excerpt: "Tips básicos para disfrutar Tulum al máximo.",
+                    date: "12 Agosto del 2026",
+                    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&h=300&fit=crop",
+                    content: "<h2>Visitando Tulum</h2><p>Tulum combina historia, naturaleza y playas de ensueño.</p>"
+                },
+                {
+                    id: 5,
+                    title: "Qué hacer en Riviera Maya",
+                    excerpt: "Actividades y experiencias para todos los gustos.",
+                    date: "18 Agosto del 2026",
+                    image: "https://images.unsplash.com/photo-1500375592092-40eb3a35b242?w=500&h=300&fit=crop",
+                    content: "<h2>Aventuras en Riviera Maya</h2><p>Infinitas opciones de actividades esperan en Riviera Maya.</p>"
+                },
+                {
+                    id: 6,
+                    title: "Sabores del Caribe mexicano",
+                    excerpt: "Platillos y restaurantes típicos que debes probar.",
+                    date: "11 Agosto del 2026",
+                    image: "https://images.unsplash.com/photo-1504674900152-b8b80e7defa3?w=500&h=300&fit=crop",
+                    content: "<h2>Gastronomía Caribeña</h2><p>La comida de Riviera Maya es una mezcla de sabores únicos.</p>"
+                }
+            ],
+            en: [
+                {
+                    id: 1,
+                    title: "Secret Playa del Carmen",
+                    excerpt: "Lesser-known places to experience Riviera Maya differently.",
+                    date: "August 27, 2026",
+                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&h=300&fit=crop",
+                    content: "<h2>Hidden Beaches of Playa del Carmen</h2><p>While Playa del Carmen is famous for its tourist beaches, there are secret spots where you can enjoy Caribbean tranquility.</p>"
+                },
+                {
+                    id: 2,
+                    title: "Most Beautiful Beaches",
+                    excerpt: "Discover paradisiacal beaches in Riviera Maya.",
+                    date: "August 14, 2026",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500&h=300&fit=crop",
+                    content: "<h2>The Most Gorgeous Beaches</h2><p>Riviera Maya features some of the most paradisiacal beaches in the world.</p>"
+                },
+                {
+                    id: 3,
+                    title: "Must-See Cenotes",
+                    excerpt: "The best cenotes to visit near Playa del Carmen.",
+                    date: "August 21, 2026",
+                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=300&fit=crop",
+                    content: "<h2>Exploring Cenotes</h2><p>Cenotes are unique geological formations found in Mexico.</p>"
+                },
+                {
+                    id: 4,
+                    title: "Quick Guide to Tulum",
+                    excerpt: "Basic tips to make the most of Tulum.",
+                    date: "August 12, 2026",
+                    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&h=300&fit=crop",
+                    content: "<h2>Visiting Tulum</h2><p>Tulum combines history, nature, and dream beaches.</p>"
+                },
+                {
+                    id: 5,
+                    title: "What to Do in Riviera Maya",
+                    excerpt: "Activities and experiences for everyone.",
+                    date: "August 18, 2026",
+                    image: "https://images.unsplash.com/photo-1500375592092-40eb3a35b242?w=500&h=300&fit=crop",
+                    content: "<h2>Adventures in Riviera Maya</h2><p>Endless activity options await in Riviera Maya.</p>"
+                },
+                {
+                    id: 6,
+                    title: "Flavors of Mexican Caribbean",
+                    excerpt: "Typical dishes and restaurants you must try.",
+                    date: "August 11, 2026",
+                    image: "https://images.unsplash.com/photo-1504674900152-b8b80e7defa3?w=500&h=300&fit=crop",
+                    content: "<h2>Caribbean Gastronomy</h2><p>Riviera Maya's cuisine is a unique blend of flavors.</p>"
+                }
+            ]
+        };
+
+        let currentLanguage = 'es';
+        let currentBlogId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBlogGrid();
+            setupCurrencyConverter();
+            setupLanguageToggle();
+        });
+
+        function renderBlogGrid() {
+            const gridContainer = document.getElementById('blogGrid');
+            const data = blogData[currentLanguage];
+
+            gridContainer.innerHTML = data.map(post => `
+                <div class="blog-card" onclick="viewBlogDetail(${post.id})">
+                    <div class="blog-card-image">
+                        <img src="${post.image}" alt="${post.title}">
+                    </div>
+                    <div class="blog-card-content">
+                        <h3 class="blog-card-title">${post.title}</h3>
+                        <p class="blog-card-excerpt">${post.excerpt}</p>
+                        <div class="blog-card-meta">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>${post.date}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewBlogDetail(id) {
+            currentBlogId = id;
+            const post = blogData[currentLanguage].find(p => p.id === id);
+
+            if (!post) return;
+
+            document.getElementById('blogGrid').parentElement.classList.add('hidden');
+            document.getElementById('relatedSection').classList.add('hidden');
+            document.getElementById('detailSection').classList.remove('hidden');
+
+            document.getElementById('detailImage').src = post.image;
+            document.getElementById('detailTitle').textContent = post.title;
+            document.getElementById('detailDate').textContent = post.date;
+            document.getElementById('detailContent').innerHTML = post.content;
+
+            window.scrollTo(0, 0);
+        }
+
+        function backToBlog() {
+            document.getElementById('blogGrid').parentElement.classList.remove('hidden');
+            document.getElementById('detailSection').classList.add('hidden');
+            currentBlogId = null;
+            window.scrollTo(0, 0);
+        }
+
+        function setupCurrencyConverter() {
+            const exchangeRate = 17; // 1 USD = 17 MXN
+
+            function convert() {
+                const amount = parseFloat(document.getElementById('converterAmount').value) || 0;
+                const from = document.getElementById('converterFrom').value;
+                const to = document.getElementById('converterTo').value;
+
+                let result;
+                if (from === 'USD' && to === 'MXN') {
+                    result = amount * exchangeRate;
+                } else if (from === 'MXN' && to === 'USD') {
+                    result = amount / exchangeRate;
+                } else {
+                    result = amount;
+                }
+
+                const currency = to === 'USD' ? 'USD' : 'MXN';
+                document.getElementById('converterResult').textContent = `${result.toLocaleString('es-MX', {maximumFractionDigits: 2})} ${currency}`;
+            }
+
+            document.getElementById('converterAmount').addEventListener('input', convert);
+            document.getElementById('converterFrom').addEventListener('change', convert);
+            document.getElementById('converterTo').addEventListener('change', convert);
+
+            convert();
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+            updateAllText();
+            renderBlogGrid();
+        }
+
+        function updateAllText() {
+            document.querySelectorAll('[data-lang-es]').forEach(el => {
+                el.textContent = el.getAttribute(`data-lang-${currentLanguage}`);
+            });
+        }
+
+        function setupLanguageToggle() {
+            document.querySelector('.lang-toggle').addEventListener('click', toggleLanguage);
+        }
+    </script>
+</body>
+</html>

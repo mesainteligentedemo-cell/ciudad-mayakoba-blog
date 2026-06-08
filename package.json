@@ -1,0 +1,14 @@
+{
+  "name": "ciudad-mayakoba-blog",
+  "version": "1.0.0",
+  "description": "Blog estático Ciudad Mayakoba - Riviera Maya",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server",
+    "build": "echo 'Static site'",
+    "start": "npx http-server"
+  },
+  "keywords": ["blog", "riviera-maya", "mayakoba"],
+  "author": "Victor IA",
+  "license": "MIT"
+}
